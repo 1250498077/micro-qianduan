@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <button v-on:click="childrenToFather">清除沙箱{{this.$store.state.visible}}</button>
+    <button v-on:click="childrenToFather">调用子组件{{this.$store.state.visible}}</button>
   </div>
 </template>
 
@@ -14,7 +14,6 @@ export default {
   },
   methods: {
     childrenToFather: () => {
-      console.log('main里面的方法被调用', this.$store)
       this.$store.commit({
         type: 'change',
         visible: this.$store.state.visible + 1

@@ -9,7 +9,6 @@ export default new Vuex.Store({
     mutations:{
         // 保存当前菜单栏的路径
         change(state, payload) {
-            console.log('卧槽')
             state.visible = payload.visible;
         },
     }

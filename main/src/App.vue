@@ -2,10 +2,17 @@
   <div id="app">
     <h1>VUE</h1>
     <img src="./assets/logo.png">
-    <h1>REACT</h1>、
-    <button v-on:click="childrenToFather">清除沙箱</button>
+    <h1>REACT</h1>
+    <router-link to="/Dog">Dog</router-link>
+    <router-link to="/Cat">Cat</router-link>
+    <router-view></router-view>
+    <br />
+    <!-- <button v-on:click="childrenToFather">清除沙箱</button> -->
     <div>{{store ? store.state.visible : 0}}</div>
-    <!-- <button v-on:click="childrenToFather">父子组件的通信</button> -->
+    <button v-on:click="childrenToFather">父子组件的通信</button>
+    <button v-on:click="openModal1">modal1</button>
+    <button v-on:click="openModal2">modal2</button>
+    child
     <div>============================以下都是react==============================</div>
     <div id="root"></div>
   </div>
@@ -18,6 +25,7 @@ import { SnapShotSandbox } from './snapShotSandbox'
 import { ProxySandbox } from './proxySandbox'
 // 子应用
 let common = {};
+let vueComponentObj = {};
 const url = '//localhost:3000';
 const fetchResource = (url) => {
   return fetch(url).then(async (res) => {
@@ -93,11 +101,16 @@ const performScriptForEval = (script, global) => {
   `;
   return eval(scriptText).call(global, global)
 }
-
+let child = {};
 import store from './store'
 export default {
   name: 'App',
   components: {},
+  data: () => {
+    return {
+      componentObj: {}
+    }
+  },
   mounted: async function () {
     window.__MICRO_WEB__ = true;
     // 子应用的所有js字符
@@ -133,6 +146,8 @@ export default {
     allScript.forEach(item => {
       const life = performScriptForFunction(item, common.proxy.proxy);
       if (life && life.mount) {
+        child = life;
+        this.setModalType = life.setModalType
         // 将父组件方法传递到子组件，子组件可以借此向父组件传递信息
         life.mount({
           childrenToFather: this.childrenToFather
@@ -146,9 +161,27 @@ export default {
     },
     childrenToFather: function () {
       this.$store.commit({
-          type: 'change',
-          visible: store.state.visible + 1
+        type: 'change',
+        visible: store.state.visible + 1
       })
+    },
+    openModal1: function() {
+      child.setModalType('Modal1', {
+        handleOk: () => { console.log('handleOk') },
+        handleCancel: () => { console.log('handleCancel') }
+      }, (componentObj) => {
+        vueComponentObj = componentObj;
+      })
+      vueComponentObj.showModal(true)
+    },
+    openModal2: function() {
+      child.setModalType('Modal2', {
+        handleOk: () => { console.log('handleOk') },
+        handleCancel: () => { console.log('handleCancel') }
+      }, (componentObj) => {
+        vueComponentObj = componentObj;
+      })
+      vueComponentObj.showModal(true)
     }
   },
 
