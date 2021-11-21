@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { Modal, Button } from 'antd';
 
 const App = (props) => {
@@ -9,9 +9,14 @@ const App = (props) => {
   const showModal = () => {
     setIsModalVisible(true);
   };
-  props.callback({
-    showModal: showModal
-  })
+
+  useEffect(() => {
+    // 需要暴露给外部调用的方法
+    props.componentLoadCallback({
+      showModal: showModal
+    })
+  }, [])
+
 
   const handleOk = () => {
     props.handleOk && props.handleOk();

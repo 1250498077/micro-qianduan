@@ -166,22 +166,26 @@ export default {
       })
     },
     openModal1: function() {
+      console.log('openModal1')
       child.setModalType('Modal1', {
         handleOk: () => { console.log('handleOk') },
-        handleCancel: () => { console.log('handleCancel') }
-      }, (componentObj) => {
-        vueComponentObj = componentObj;
-      })
-      vueComponentObj.showModal(true)
+        handleCancel: () => { console.log('handleCancel') },
+        componentLoadCallback: (componentObj) => {
+          vueComponentObj = componentObj; 
+          vueComponentObj.showModal(true);
+        }
+      });
+      
     },
     openModal2: function() {
       child.setModalType('Modal2', {
         handleOk: () => { console.log('handleOk') },
-        handleCancel: () => { console.log('handleCancel') }
-      }, (componentObj) => {
-        vueComponentObj = componentObj;
+        handleCancel: () => { console.log('handleCancel') },
+        componentLoadCallback: (componentObj) => { 
+          vueComponentObj = componentObj;
+          vueComponentObj.showModal(true);
+        }
       })
-      vueComponentObj.showModal(true)
     }
   },
 

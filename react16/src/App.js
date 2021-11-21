@@ -17,7 +17,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <button onClick={() => toFather()}>子组件调用父组件函数</button>
       </header> */}
-      <Modal1 />
+      {/* <Modal1 /> */}
     </div>
   );
 }
