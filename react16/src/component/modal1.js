@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Modal, Button } from 'antd';
 
-
+console.log('加载modal1modal1modal1modal1')
 const App = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   console.log('render App')

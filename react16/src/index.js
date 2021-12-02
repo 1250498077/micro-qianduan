@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -7,13 +7,28 @@ import reportWebVitals from './reportWebVitals';
 import { getComponent } from './utils'
 import 'antd/dist/antd.css';
 
-
 const render = (component) => {
-  console.log('render')
-  ReactDOM.render(component ? component : <App />,
+  console.log('render', component)
+  ReactDOM.render(<App />,
     document.getElementById('root')
   );
 }
+
+
+
+// const render = (component) => {
+//   console.log('render', component)
+//   ReactDOM.render(<div>
+
+//     {
+//       false ? 
+//       <div>{component}</div> : 
+//       null
+//     }
+//   </div>,
+//     document.getElementById('root')
+//   );
+// }
 
 if (!window.__MICRO_WEB__) {
   render()
