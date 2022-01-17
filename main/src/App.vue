@@ -132,7 +132,7 @@ export default {
       this.url = '//localhost:3000'
     },
     editUrl3001: () => {
-      this.url = '//localhost:3002'
+      this.url = '//localhost:3001'
     },
     initApp: async () => {
       window.__MICRO_WEB__ = true;
