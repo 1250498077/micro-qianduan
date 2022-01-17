@@ -1,14 +1,12 @@
-import React, { Suspense } from 'react';
+import Modal1 from './component/modal1';
+import Modal2 from './component/modal2';
 
-
-const Modal1 = React.lazy(() => import("./component/modal1"))
-const Modal2 = React.lazy(() => import("./component/modal2"))
 let modal = <div>loading......</div>
 export const getComponent = (componentName, props) => {
   if (componentName === 'Modal1') {
-    modal = <Suspense fallback={<div>loading....</div>}>{<Modal1 {...props}  />}</Suspense>
+    modal = <Modal1 {...props}  />
   } else if (componentName === 'Modal2') {
-    modal = <Suspense fallback={<div>loading....</div>}>{<Modal2 {...props}  />}</Suspense>
+    modal = <Modal2 {...props}  />
   }
   return modal;
 }
