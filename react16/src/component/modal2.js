@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { Modal, Button } from 'antd';
 
 
@@ -9,14 +9,22 @@ const App = (props) => {
 
 
 
-  const showModal = () => {
+  const showModal = useCallback(()=>{
+    console.log('调用')
     setIsModalVisible(true);
-  };
+  }, [])
+
+  
+  const closeModal = useCallback(()=>{
+    console.log('调用')
+    setIsModalVisible(false);
+  }, [])
 
   useEffect(() => {
     // 需要暴露给外部调用的方法
     props.componentLoadCallback({
-      showModal: showModal
+      showModal: showModal,
+      closeModal: closeModal
     })
   }, [])
 

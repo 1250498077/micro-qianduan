@@ -13,10 +13,16 @@ const App = (props) => {
     setIsModalVisible(true);
   }, [])
 
+  const closeModal = useCallback(()=>{
+    console.log('调用')
+    setIsModalVisible(false);
+  }, [])
+
   useEffect(() => {
     // 需要暴露给外部调用的方法
     props.componentLoadCallback && props.componentLoadCallback({
-      showModal: showModal
+      showModal: showModal,
+      closeModal: closeModal
     })
   }, [])
 
