@@ -1,15 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
 import { getMain } from './main'
-import React, { Suspense } from 'react';
-// const Modal1 = React.lazy(() => import("./component/modal1"))
-// const Modal2 = React.lazy(() => import("./component/modal2"))
-import Card from "./component/Card"
+import Modal1 from './component/modal1'
+import Modal2 from './component/modal2'
 
 function App() {
+
+  const toFather = () => {
+    const app = getMain();
+    app.childrenToFather();
+  }
+
   return (
     <div>
-      <Card />
+      {/* <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <button onClick={() => toFather()}>子组件调用父组件函数</button>
+      </header> */}
+      {/* <Modal1 /> */}
     </div>
   );
 }
