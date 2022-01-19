@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Modal, Button } from 'antd';
+import styles from './index.scss'
 
 console.log('加载modal1modal1modal1modal1')
 const App = (props) => {
@@ -39,9 +40,11 @@ const App = (props) => {
   return (
     <>
       <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <p>111111111111111</p>
-        <p>111111111111111</p>
-        <p>111111111111111</p>
+        <div className={styles.testFont}>
+          <p>111111111111111</p>
+          <p>111111111111111</p>
+          <p>111111111111111</p>
+        </div>
       </Modal>
     </>
   );

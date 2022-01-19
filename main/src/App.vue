@@ -73,14 +73,13 @@ const getResource = async (root, url) => {
           scriptUrl.push(`http:${url}${href}`)
         }
       }
-      // if (href.endsWith('.css')) {
-      //   console.log('加载css')
-      //   if (href.startsWith('http')) {
-      //     cssUrl.push(href)
-      //   } else {
-      //     cssUrl.push(`http:${url}${href}`)
-      //   }
-      // }
+      if (href.endsWith('.css')) {
+        if (href.startsWith('http')) {
+          cssUrl.push(href)
+        } else {
+          cssUrl.push(`http:${url}${href}`)
+        }
+      }
     }
 
     for (let i = 0; i < children.length; i++) {
@@ -89,7 +88,7 @@ const getResource = async (root, url) => {
 
   }
   deepParse(root)
-  return [dom, scriptUrl, script]
+  return [dom, scriptUrl, script, cssUrl]
 }
 
 // 执行子应用的js字符
@@ -151,18 +150,36 @@ export default {
       const div = document.createElement('div');
       // 拿到的字符含有<html>、<header>、<body>标签,插入进去之后浏览器会自动帮助我们删除
       div.innerHTML = html;
-
+      console.log('div', div)
 
       // 解析刚刚拿到的子应用的div
       // scriptUrl： 拿到子应用的所有依赖的js文件的url
       // script： 拿到子应用的内嵌的js逻辑
       const [dom, scriptUrl, script, cssUrl] = await getResource(div, this.url);
-      console.log('scriptUrl', scriptUrl)
-      // // 拿到子应用的 index.html 的外链的js
+
+      console.log('cssUrl', cssUrl)
+      for (let i = 0; i < cssUrl.length; i++) {
+        var link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        link.setAttribute('href', cssUrl[i]);
+        document.getElementsByTagName('head')[0].appendChild(link);
+      }
+
+      // 拿到子应用的 index.html 的外链的js
       // const cssFetchedResource = await Promise.all(cssUrl.map(async (item) => {
       //   return fetchResource(item);
       // }));
 
+      // const divCss = document.createElement('div');
+      // // 拿到的字符含有<html>、<header>、<body>标签,插入进去之后浏览器会自动帮助我们删除
+      // console.log('cssFetchedResource', cssFetchedResource)
+      // for (let i = 0; i < cssFetchedResource.length; i++) {
+      //   console.log('xxxxxxxxxxxxx')
+      //   divCss.innerHTML = '<style>'+ cssFetchedResource[i] +'</style>'
+      //   // document.getElementsByTagName('head')[0].innerHTML = '<style>'+ cssFetchedResource[i] +'</style>'
+      // }
+      // console.log('divCss', divCss)
       // 拿到子应用的 index.html 的外链的js
       const fetchedResource = await Promise.all(scriptUrl.map(async (item) => {
         return fetchResource(item);
@@ -172,7 +189,7 @@ export default {
       console.log('allScript', allScript)
       // 执行子应用的javascript
       allScript.forEach(item => {
-        const life = performScriptForFunction(item, common.proxy.proxy);
+        const life = performScriptForFunction(item, common.proxy.proxy);  
         if (life && life.mount) {
           child = life;
           this.setModalType = life.setModalType

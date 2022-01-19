@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { StylesProvider, createGenerateClassName } from '@material-ui/styles';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { getComponent } from './utils'
 import 'antd/dist/antd.css';
 
+const generateClassName = createGenerateClassName({
+  seed: 'App1',
+});
 
 const render = (component) => {
   console.log('render')
-  ReactDOM.render(component ? component : <App />,
+  ReactDOM.render(component ? 
+    <StylesProvider generateClassName={generateClassName}>
+      {component}
+    </StylesProvider>
+    : <App />,
     document.getElementById('root')
   );
 }
